@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://diqwbyciaxov"]
+
+[ext_resource type="Script" uid="uid://db1ksx6ebwi2m" path="res://scenes/object/normal_object.gd" id="1_yq2lq"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8g5uu"]
+load_path = "res://.godot/imported/normal.png-ed829bda682b8487bb051b4681d8b52b.ctex"
+
+[node name="NormalObject" type="Node2D"]
+script = ExtResource("1_yq2lq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = SubResource("CompressedTexture2D_8g5uu")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_screen_exited"]
