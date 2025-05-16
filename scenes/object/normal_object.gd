@@ -12,6 +12,9 @@ func initialize(spawn_pos: Vector2, target_pos: Vector2) -> void:
 
 func _process(delta: float) -> void:
 	position += vector * delta
+	
+	if position.x < 36 or get_viewport_rect().size.x - 36 < position.x:
+		vector *= Vector2(-1, 1)
 
 
 func _on_screen_exited() -> void:
