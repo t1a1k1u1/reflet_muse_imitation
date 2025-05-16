@@ -1,6 +1,11 @@
-[gd_scene format=3 uid="uid://55m56q1l7t76"]
+[gd_scene load_steps=3 format=3 uid="uid://55m56q1l7t76"]
+
+[ext_resource type="Script" uid="uid://hp0ghbbmkk8o" path="res://scenes/play/container.gd" id="1_8qmxj"]
+[ext_resource type="PackedScene" uid="uid://diqwbyciaxov" path="res://scenes/object/normal_object.tscn" id="2_kd3p5"]
 
 [node name="Container" type="Node2D"]
+script = ExtResource("1_8qmxj")
+normal_object = ExtResource("2_kd3p5")
 
 [node name="TargetPosition" type="Node" parent="."]
 
