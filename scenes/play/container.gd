@@ -13,8 +13,9 @@ func _ready() -> void:
 	target_positions = targets_origin \
 		+ targets_origin.map(func(e): return e * Vector2(-1, 1)) \
 		+ targets_origin.map(func(e): return e + Vector2(get_viewport_rect().size.x, 0))
-	
+
+
+func _on_spawn_timer_timeout() -> void:
 	var obj = normal_object.instantiate()
-	
 	obj.initialize(spawn_positions.pick_random(), target_positions.pick_random())
 	add_child(obj)
