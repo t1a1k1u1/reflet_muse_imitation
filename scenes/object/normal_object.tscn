@@ -9,7 +9,7 @@ load_path = "res://.godot/imported/normal.png-ed829bda682b8487bb051b4681d8b52b.c
 script = ExtResource("1_yq2lq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.65, 0.65)
 texture = SubResource("CompressedTexture2D_8g5uu")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
