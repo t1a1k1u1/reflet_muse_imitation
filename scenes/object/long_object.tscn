@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dfyrupygg4cwq"]
+
+[ext_resource type="Script" uid="uid://edxdt4h28p8v" path="res://scenes/object/long_object.gd" id="1_h5oep"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_kchav"]
+load_path = "res://.godot/imported/normal.png-ed829bda682b8487bb051b4681d8b52b.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_a8q6p"]
+load_path = "res://.godot/imported/normal.png-ed829bda682b8487bb051b4681d8b52b.ctex"
+
+[node name="LongObject" type="Node2D"]
+script = ExtResource("1_h5oep")
+
+[node name="Chain" type="Line2D" parent="."]
+
+[node name="Head" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Head"]
+scale = Vector2(0.65, 0.65)
+texture = SubResource("CompressedTexture2D_kchav")
+
+[node name="Tail" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Tail"]
+scale = Vector2(0.65, 0.65)
+texture = SubResource("CompressedTexture2D_a8q6p")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="Tail"]
+
+[connection signal="screen_exited" from="Tail/VisibleOnScreenEnabler2D" to="." method="_on_screen_exited"]

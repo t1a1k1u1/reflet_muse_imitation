@@ -2,6 +2,7 @@ extends Node2D
 
 @export var normal_object: PackedScene
 @onready var chain_object = preload("res://scenes/object/chain_object.tscn")
+@onready var long_object = preload("res://scenes/object/long_object.tscn")
 
 var spawn_positions
 var target_positions
@@ -42,4 +43,10 @@ func spawn(object, time: float) -> void:
 		var times = [object.time - time] + object.chained.map(func(e): return e - time)
 		obj.initialize(spawn_positions.pick_random(), target_positions.pick_random(), times)
 		add_child(obj)
-		
+	
+	elif object.type == "long":
+		var obj = long_object.instantiate()
+		var time_start = object.time - time
+		var time_end = object.time_end - time
+		obj.initialize(spawn_positions.pick_random(), target_positions.pick_random(), time_start, time_end)
+		add_child(obj)
