@@ -4,3 +4,7 @@
 
 [node name="ChainObject" type="Node2D"]
 script = ExtResource("1_uc5an")
+
+[node name="Chain" type="Line2D" parent="."]
+
+[node name="ObjParent" type="Node" parent="."]
