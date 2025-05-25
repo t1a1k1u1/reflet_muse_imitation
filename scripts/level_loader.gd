@@ -1,4 +1,4 @@
-class_name LevelLoader
+class_name LevelData
 
 # {
 # 	"info": {
@@ -34,7 +34,11 @@ class_name LevelLoader
 # 	]
 # }
 
-const resolution: float = 64 # pulse / beat
+const resolution: float = 192 # pulse / beat
+
+var title: String
+var artist: String
+var bpm_text: String
 
 var bpm_events: Array[BpmEvent]
 var objects: Array[Obj]
@@ -44,6 +48,13 @@ func _init(level_name: String) -> void:
 	
 	if raw_data == null:
 		printerr("Load Level Error")
+	
+	title = raw_data["info"]["title"]
+	artist = raw_data["info"]["artist"]
+	bpm_text = raw_data["info"]["bpm"]
+	
+	loadBpmEvents(raw_data["bpm_events"])
+	loadObjects(raw_data["objects"])
 
 
 func loadFile(file_path: String) -> Variant:
@@ -64,7 +75,7 @@ func loadFile(file_path: String) -> Variant:
 	return null
 
 
-func loadBpmEvents(events: Array[Dictionary]) -> void:
+func loadBpmEvents(events: Array) -> void:
 	events.sort_custom(func(a, b): return a["pulse"] < b["pulse"])
 	
 	var pulse: int = 0
@@ -82,12 +93,12 @@ func loadBpmEvents(events: Array[Dictionary]) -> void:
 		bpm_events.push_back(BpmEvent.new(pulse, bpm, time))
 
 
-func loadObjects(objects: Array[Dictionary]) -> void:
-	objects.sort_custom(func(a, b): return a["pulse"] < b["pulse"])
+func loadObjects(object_data: Array) -> void:
+	object_data.sort_custom(func(a, b): return a["pulse"] < b["pulse"])
 	
 	var bpm_index = 0
 	
-	for object in objects:
+	for object in object_data:
 		var next_pulse = object["pulse"]
 		
 		var has_next_bpm = len(bpm_events) - 1 < bpm_index
@@ -107,11 +118,12 @@ func loadObjects(objects: Array[Dictionary]) -> void:
 			objects.push_back(LongObj.new(next_time, end_time))
 		
 		elif object["type"] == "chain":
-			var chained = (object["chained"] as Array).map(func(e): return Obj.new(current_bpm.time + pulse_time * (e["pulse"] - current_bpm.pulse)))
+			var chained = (object["chained"]).map(func(e): return current_bpm.time + pulse_time * (e["pulse"] - current_bpm.pulse))
 			objects.push_back(ChainObj.new(next_time, chained))
 
 
 class Obj:
+	var type: String = "normal"
 	var time: float
 	
 	func _init(time: float) -> void:
@@ -123,13 +135,15 @@ class LongObj extends Obj:
 	func _init(time: float, time_end: float) -> void:
 		super(time)
 		self.time_end = time_end
+		self.type = "long"
 
 class ChainObj extends Obj:
-	var chained: Array[Obj]
+	var chained: Array
 	
-	func _init(time: float, chained: Array[Obj]) -> void:
+	func _init(time: float, chained: Array) -> void:
 		super(time)
 		self.chained = chained
+		self.type = "chain"
 
 class BpmEvent:
 	var pulse: int

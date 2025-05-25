@@ -54,12 +54,6 @@ position = Vector2(600, 160)
 [node name="07" type="Marker2D" parent="SpawnPosition"]
 position = Vector2(700, 160)
 
-[node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 0.1
-autostart = true
-
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("3_2lmi8")
 offset = Vector2(400, 1120)
-
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
