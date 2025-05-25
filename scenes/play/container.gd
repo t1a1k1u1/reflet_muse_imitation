@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var normal_object: PackedScene
+@onready var chain_object = preload("res://scenes/object/chain_object.tscn")
 
 var spawn_positions
 var target_positions
@@ -25,12 +26,20 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	time += delta
-	while obj_index < len(level.objects) && level.objects[obj_index].time <= time:
-		spawn()
+	while obj_index < len(level.objects) && level.objects[obj_index].time <= time + 2.0:
+		spawn(level.objects[obj_index], time)
 		obj_index += 1
 
 
-func spawn() -> void:
-	var obj = normal_object.instantiate()
-	obj.initialize(spawn_positions.pick_random(), target_positions.pick_random())
-	add_child(obj)
+func spawn(object, time: float) -> void:
+	if object.type == "normal":
+		var obj = normal_object.instantiate()
+		obj.initialize(spawn_positions.pick_random(), target_positions.pick_random(), object.time - time)
+		add_child(obj)
+	
+	elif object.type == "chain":
+		var obj = chain_object.instantiate()
+		var times = [object.time - time] + object.chained.map(func(e): return e - time)
+		obj.initialize(spawn_positions.pick_random(), target_positions.pick_random(), times)
+		add_child(obj)
+		
